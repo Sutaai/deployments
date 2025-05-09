@@ -7,7 +7,7 @@ Good for me so I can track how I deploy my stuff.
 
 ## Quick notes
 
-ENV interpolation :
+### ENV interpolation
 
 ```sh
 Direct substitution
@@ -21,6 +21,20 @@ Required value
 Alternative value
   ${VAR:+replacement} -> replacement if VAR is set and non-empty, otherwise empty
   ${VAR+replacement} -> replacement if VAR is set, otherwise empty
+```
+
+### Setting an user
+
+All possible values:
+
+```yml
+services:
+  app:
+    image: python
+    user: 1000:1000
+    user: sutaai
+    user: sutaai:web
+    ...
 ```
 
 ## References
