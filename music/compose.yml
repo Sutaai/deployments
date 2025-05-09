@@ -10,7 +10,6 @@ services:
       GONIC_MULTI_VALUE_GENRE: delim \,
       GONIC_JUKEBOX_ENABLED: ${GONIC_JUKEBOX_ENABLED:-true}
       GONIC_EXPVAR: ${GONIC_EXPVAR:-false}
-    user: 1000:1000
     ports:
       - 11445:80
     volumes:
