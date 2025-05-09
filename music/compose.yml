@@ -1,0 +1,31 @@
+services:
+  gonic:
+    image: sentriz/gonic:latest
+    environment:
+      TZ: Europe/Paris
+      GONIC_HTTP_LOG: ${GONIC_HTTP_LOG:-false}
+      GONIC_PROXY_PREFIX: ${GONIC_PROXY_PREFIX:-/}
+      GONIC_SCAN_AT_START_ENABLED: ${GONIC_SCAN_AT_START_ENABLED:-true}
+      GONIC_SCAN_WATCHER_ENABLED: ${GONIC_SCAN_WATCHER_ENABLED:-true}
+      GONIC_MULTI_VALUE_GENRE: delim \,
+      GONIC_JUKEBOX_ENABLED: ${GONIC_JUKEBOX_ENABLED:-true}
+      GONIC_EXPVAR: ${GONIC_EXPVAR:-false}
+    ports:
+      - 11445:80
+    volumes:
+      - $MUSIC_BASE_PATH/gonic/data:/data
+      - $MUSIC_BASE_PATH/library:/music:ro
+      - $MUSIC_BASE_PATH/playlists:/playlists
+      - $MUSIC_BASE_PATH/gonic/cache:/cache
+
+  beets:
+    image: linuxserver/beets:latest
+    environment:
+      - TZ=Europe/Paris
+    volumes:
+      - $MUSIC_BASE_PATH/beets/config:/config
+      # See README.md on why this is commented. Use "beet config -e"
+      - $MUSIC_BASE_PATH/library:/music
+      - $MUSIC_BASE_PATH/ingest:/downloads
+    ports:
+      - 22654:8337

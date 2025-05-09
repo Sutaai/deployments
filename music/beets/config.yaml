@@ -1,0 +1,80 @@
+# --- Global ---
+
+library: /config/library.blb
+directory: /music
+plugins: albumtypes chroma convert duplicates edit embedart fetchart fromfilename info lastgenre lastimport mbsubmit mbsync missing parentwork replaygain scrub unimported web
+threaded: yes
+original_date: yes
+per_disc_numbering: no
+
+ui:
+  color: yes
+
+import:
+  write: yes
+  move: yes
+  resume: ask
+  incremental: yes
+  # timid: yes
+  languagues: fr en ru
+  log: /config/import.log
+  bell: yes
+
+# musicbrainz:
+  # external_ids:
+  #   # This might as well just be a bad idea
+  #   discogs: yes
+  #   spotify: yes
+  #   bandcamp: yes
+  #   beatport: yes
+
+paths:
+  default: $albumartist/$atypes $album%aunique{}/$track $title
+  singleton: NAA/$artist/$title
+  comp: Compilations/$atypes $album%aunique{}/$track $title
+
+# --- Plugins ---
+
+albumtypes:
+  # Will indicate the type of album imported.
+  # Is it an EP, a single, etc.
+  types:
+    - ep: "EP"
+    - soundtrack: "OST"
+    - single: "Single"
+    - live: "Live"
+    - compilation: "Compilation"
+    - remix: "Remix"
+  ignore_va: compilation
+  bracket: "[]"
+
+chroma:
+  auto: yes
+acoustid:
+  apikey: xxxxxxxxxx
+
+convert:
+  auto: yes
+  format: mp3
+  ffmpeg: /usr/bin/ffmpeg
+  opts: -ab 320k -ac 2 -ar 48000
+  max_bitrate: 320
+  threads: 1
+
+lastgenre:
+  auto: yes
+  canonical: yes
+  count: 3
+  force: yes
+  keep_existing: no
+
+lastimport:
+  user: Sutaai
+
+replaygain:
+  auto: yes
+  backend: ffmpeg
+
+web:
+  host: 0.0.0.0
+  port: 8337
