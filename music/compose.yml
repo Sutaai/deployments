@@ -14,10 +14,10 @@ services:
     ports:
       - 11445:80
     volumes:
-      - $MUSIC_BASE_PATH/gonic/data:/data
+      - gonic-data:/data
+      - gonic-cache:/cache
       - $MUSIC_BASE_PATH/library:/music:ro
       - $MUSIC_BASE_PATH/playlists:/playlists
-      - $MUSIC_BASE_PATH/gonic/cache:/cache
 
   beets:
     image: linuxserver/beets:latest
@@ -26,9 +26,14 @@ services:
       PUID: 1000
       PGID: 1000
     volumes:
-      - $MUSIC_BASE_PATH/beets/config:/config
+      - beets-config:/config
       # See README.md on why this is commented. Use "beet config -e"
       - $MUSIC_BASE_PATH/library:/music
       - $MUSIC_BASE_PATH/ingest:/downloads
     ports:
       - 22654:8337
+
+volumes:
+  gonic-data:
+  gonic-cache:
+  beets-config:
