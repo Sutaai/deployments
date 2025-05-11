@@ -1,6 +1,8 @@
 services:
   gonic:
     image: sentriz/gonic:latest
+    restart: unless-stopped
+
     environment:
       TZ: Europe/Paris
       GONIC_HTTP_LOG: ${GONIC_HTTP_LOG:-false}
@@ -22,6 +24,7 @@ services:
 
   beets:
     image: linuxserver/beets:latest
+
     environment:
       TZ: Europe/Paris
       PUID: 1000

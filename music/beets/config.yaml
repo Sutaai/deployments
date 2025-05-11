@@ -12,6 +12,7 @@ ui:
 
 import:
   write: yes
+  copy: no
   move: yes
   resume: ask
   incremental: yes
