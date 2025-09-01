@@ -1,26 +1,49 @@
 services:
-  gonic:
-    image: sentriz/gonic:latest
-    restart: unless-stopped
+  # gonic:
+  #   image: sentriz/gonic:latest
+  #   restart: unless-stopped
 
-    environment:
-      TZ: Europe/Paris
-      GONIC_HTTP_LOG: ${GONIC_HTTP_LOG:-false}
-      GONIC_PROXY_PREFIX: ${GONIC_PROXY_PREFIX:-/}
-      GONIC_SCAN_AT_START_ENABLED: ${GONIC_SCAN_AT_START_ENABLED:-true}
-      GONIC_SCAN_WATCHER_ENABLED: ${GONIC_SCAN_WATCHER_ENABLED:-true}
-      GONIC_MULTI_VALUE_GENRE: delim \,
-      GONIC_MULTI_VALUE_ARTIST: multi
-      GONIC_MULTI_VALUE_ALBUM_ARTIST: multi
-      GONIC_JUKEBOX_ENABLED: ${GONIC_JUKEBOX_ENABLED:-true}
-      GONIC_EXPVAR: ${GONIC_EXPVAR:-false}
+  #   environment:
+  #     TZ: Europe/Paris
+  #     GONIC_HTTP_LOG: ${GONIC_HTTP_LOG:-false}
+  #     GONIC_PROXY_PREFIX: ${GONIC_PROXY_PREFIX:-/}
+  #     GONIC_SCAN_AT_START_ENABLED: ${GONIC_SCAN_AT_START_ENABLED:-true}
+  #     GONIC_SCAN_WATCHER_ENABLED: ${GONIC_SCAN_WATCHER_ENABLED:-true}
+  #     GONIC_MULTI_VALUE_GENRE: delim \,
+  #     GONIC_MULTI_VALUE_ARTIST: multi
+  #     GONIC_MULTI_VALUE_ALBUM_ARTIST: multi
+  #     GONIC_JUKEBOX_ENABLED: ${GONIC_JUKEBOX_ENABLED:-true}
+  #     GONIC_EXPVAR: ${GONIC_EXPVAR:-false}
+  #   ports:
+  #     - 11445:80
+  #   volumes:
+  #     - gonic-data:/data
+  #     - gonic-cache:/cache
+  #     - $MUSIC_BASE_PATH/library:/music:ro
+  #     - $MUSIC_BASE_PATH/playlists:/playlists
+
+  navidrome:
+    image: deluan/navidrome:latest
     ports:
-      - 11445:80
+      - 127.0.0.1:11446:4533
+    environment:
+      ND_BASEURL: ${NAVI_URL:-https://music.hunter.sutaai.dev}
+      ND_ENABLEINSIGHTSCOLLECTOR: false
+
+      ND_PASSWORDENCRYPTIONKEY: ${NAVI_ENCRYPTION_KEY}
+      ND_AUTHREQUESTLIMIT: 10
+      ND_AUTHWINDOWLENGTH: 30m
+
+      ND_ENABLESHARING: true
+
+      ND_LASTFM_APIKEY: ${NAVI_LASTAPI_KEY}
+      ND_LASTFM_SECRET: ${NAVI_LASTAPI_SECRET}
+      ND_SPOTIFY_ID: ${NAVI_SPOTIFY_ID}
+      ND_SPOTIFY_SECRET: ${NAVI_SPOTIFY_SECRET}
+      ND_UIWELCOMEMESSAGE: Machine, turn back now. The layers of this palace, are not for your kind. Turn back, or you will be crossing the will of God.
     volumes:
-      - gonic-data:/data
-      - gonic-cache:/cache
-      - $MUSIC_BASE_PATH/library:/music:ro
-      - $MUSIC_BASE_PATH/playlists:/playlists
+      - "navidrome-data:/data"
+      - "$MUSIC_BASE_PATH/library:/music:ro"
 
   beets:
     image: linuxserver/beets:latest
@@ -39,6 +62,7 @@ services:
       - 22654:8337
 
 volumes:
+  navidrome-data:
   gonic-data:
   gonic-cache:
   beets-config:

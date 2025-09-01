@@ -31,7 +31,7 @@ import:
 
 paths:
   default: $albumartist/$atypes $album%aunique{}/$track $title
-  singleton: NAA/$artist/$title
+  singleton: $artist/[Single] $title%aunique{}/$title
   comp: Compilations/$atypes $album%aunique{}/$track $title
 
 # --- Plugins ---
@@ -50,17 +50,18 @@ albumtypes:
   bracket: "[]"
 
 chroma:
-  auto: yes
+  auto: no
 acoustid:
   apikey: xxxxxxxxxx
 
 convert:
   auto: yes
   format: mp3
+  no_convert: format:MP3
   ffmpeg: /usr/bin/ffmpeg
   opts: -ab 320k -ac 2 -ar 48000
   max_bitrate: 320
-  threads: 1
+  delete_originals: yes
 
 lastgenre:
   auto: yes
@@ -75,6 +76,15 @@ lastimport:
 replaygain:
   auto: yes
   backend: ffmpeg
+
+fetchart:
+  sources:
+    - cover_art_url
+    - filesystem
+    - coverart
+    - itunes
+    - amazon
+    - albumart
 
 web:
   host: 0.0.0.0

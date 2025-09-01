@@ -37,6 +37,9 @@ services:
     ...
 ```
 
+> [!NOTE]
+> LinuxServer's images prefers `PUID`/`PGID`. Process won't be launched as root, but container will be.
+
 ## References
 
 - Environment variables interpolation: <https://docs.docker.com/compose/how-tos/environment-variables/variable-interpolation/>
