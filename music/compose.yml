@@ -24,8 +24,10 @@ services:
 
   navidrome:
     image: deluan/navidrome:latest
+    restart: unless-stopped
     ports:
       - 127.0.0.1:11446:4533
+
     environment:
       ND_BASEURL: ${NAVI_URL:-https://music.hunter.sutaai.dev}
       ND_ENABLEINSIGHTSCOLLECTOR: false

@@ -4,7 +4,6 @@ This repository contains the definition of my tools deployments.
 
 Good for me so I can track how I deploy my stuff.
 
-
 ## Quick notes
 
 ### ENV interpolation
