@@ -43,6 +43,3 @@ services:
 
 volumes:
   navidrome-data:
-  gonic-data:
-  gonic-cache:
-  beets-config:
