@@ -1,0 +1,87 @@
+(authenticate) {
+  reverse_proxy /outpost.goauthentik.io/* https://auth.hunter.sutaai.dev
+  forward_auth https://auth.hunter.sutaai.dev {
+    uri /outpost.goauthentik.io/auth/caddy
+    copy-headers X-Authentik-Username X-Authentik-Groups X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
+  }
+}
+
+
+auth.hunter.sutaai.dev {
+	reverse_proxy localhost:9001	
+}
+
+archive.hunter.sutaai.dev {
+	reverse_proxy localhost:2685
+}
+
+docs.hunter.sutaai.dev {
+	reverse_proxy localhost:11511
+}
+
+finance.hunter.sutaai.dev {
+	reverse_proxy localhost:8456
+}
+
+files.hunter.sutaai.dev {
+	reverse_proxy localhost:51239
+}
+
+filesui.hunter.sutaai.dev {
+	reverse_proxy localhost:51238
+}
+
+grafana.hunter.sutaai.dev {
+	reverse_proxy localhost:3000
+}
+
+music.hunter.sutaai.dev {
+	reverse_proxy localhost:11446
+}
+
+outline.hunter.sutaai.dev {
+	reverse_proxy localhost:8553
+}
+
+paperless.hunter.sutaai.dev {
+	reverse_proxy localhost:8010 {
+		header_down Referrer-Policy "strict-option-when-cross-origin"
+	}
+}
+
+sync.hunter.sutaai.dev {
+	reverse_proxy localhost:8384 {
+		header_up Host {upstream_hostport}
+	}
+}
+
+tasks.hunter.sutaai.dev {
+	reverse_proxy localhost:8722
+}
+
+trial.hunter.sutaai.dev {
+	reverse_proxy localhost:55555
+}
+
+
+# Just the homepage
+hunter.sutaai.dev {
+	tls {
+	  dns cloudflare {env.CF_API_TOKEN}
+	}
+
+	handle {
+		header Content-Type text/html
+		try_files /static/defaultpage.html
+	}
+}
+
+# Shlink
+t4t.one {
+	reverse_proxy localhost:16887
+}
+
+# Eleutheria
+wiki.t4t.one {
+	reverse_proxy localhost:6545
+}

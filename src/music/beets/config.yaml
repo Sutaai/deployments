@@ -2,7 +2,7 @@
 
 library: /config/library.blb
 directory: /music
-plugins: albumtypes chroma convert duplicates edit embedart fetchart fromfilename info lastgenre lastimport mbsubmit mbsync missing parentwork replaygain scrub unimported web
+plugins: albumtypes chroma convert duplicates edit embedart fetchart fromfilename info inline lastgenre lastimport mbsubmit mbsync missing musicbrainz parentwork replaygain scrub unimported web
 threaded: yes
 original_date: yes
 per_disc_numbering: no
@@ -21,7 +21,8 @@ import:
   log: /config/import.log
   bell: yes
 
-# musicbrainz:
+musicbrainz:
+  https: yes
   # external_ids:
   #   # This might as well just be a bad idea
   #   discogs: yes
@@ -63,6 +64,13 @@ convert:
   max_bitrate: 320
   delete_originals: yes
 
+#item_fields:
+#  smart_album: |
+#    if not item.get('album') or item.get('albumtype') == 'single':
+#      return item.title
+#    else:
+#      return item.album
+
 lastgenre:
   auto: yes
   canonical: yes
@@ -85,7 +93,3 @@ fetchart:
     - itunes
     - amazon
     - albumart
-
-web:
-  host: 0.0.0.0
-  port: 8337
