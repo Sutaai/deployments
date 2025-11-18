@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: [music, webserver]
+        service: [webserver]
+      fail-fast: false
     permissions:
       contents: read
       packages: write
