@@ -9,5 +9,6 @@ RUN xcaddy build \
 FROM caddy:2.10-alpine
 
 COPY defaultpage.html /static/defaultpage.html
+COPY Caddyfile /etc/caddy/Caddyfile
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy
