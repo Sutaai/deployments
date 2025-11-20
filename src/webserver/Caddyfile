@@ -6,8 +6,18 @@
   }
 }
 
+{
+  crowdsec {
+    api_url http://localhost:8080
+    api_key {env.CROWDSEC_API_KEY}
+    ticker_interval 15s
+    #disable_streaming
+    #enable_hard_fails
+  }
+}
 
 auth.hunter.sutaai.dev {
+  crowdsec
 	reverse_proxy localhost:9001
 }
 
@@ -16,6 +26,7 @@ archive.hunter.sutaai.dev {
 }
 
 docs.hunter.sutaai.dev {
+  crowdsec
 	reverse_proxy localhost:11511
 }
 
@@ -24,14 +35,17 @@ finance.hunter.sutaai.dev {
 }
 
 files.hunter.sutaai.dev {
+  crowdsec
 	reverse_proxy localhost:51239
 }
 
 filesui.hunter.sutaai.dev {
+  crowdsec
 	reverse_proxy localhost:51238
 }
 
 grafana.hunter.sutaai.dev {
+  crowdsec
 	reverse_proxy localhost:3000
 }
 
@@ -40,10 +54,12 @@ music.hunter.sutaai.dev {
 }
 
 outline.hunter.sutaai.dev {
+  crowdsec
 	reverse_proxy localhost:8553
 }
 
 paperless.hunter.sutaai.dev {
+  crowdsec
 	reverse_proxy localhost:8010 {
 		header_down Referrer-Policy "strict-option-when-cross-origin"
 	}
@@ -56,6 +72,7 @@ sync.hunter.sutaai.dev {
 }
 
 tasks.hunter.sutaai.dev {
+  crowdsec
 	reverse_proxy localhost:8722
 }
 
@@ -66,6 +83,7 @@ trial.hunter.sutaai.dev {
 
 # Just the homepage
 hunter.sutaai.dev {
+  crowdsec
 	tls {
 	  dns cloudflare {env.CF_API_TOKEN}
 	}
@@ -78,10 +96,12 @@ hunter.sutaai.dev {
 
 # Shlink
 t4t.one {
+  crowdsec
 	reverse_proxy localhost:16887
 }
 
 # Eleutheria
 wiki.t4t.one {
+  crowdsec
 	reverse_proxy localhost:6545
 }
