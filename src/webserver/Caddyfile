@@ -1,4 +1,4 @@
-(authenticate) {
+(authenticate-authentik) {
   reverse_proxy /outpost.goauthentik.io/* https://auth.hunter.sutaai.dev
   forward_auth https://auth.hunter.sutaai.dev {
     uri /outpost.goauthentik.io/auth/caddy
@@ -50,6 +50,14 @@ grafana.hunter.sutaai.dev {
   route {
     crowdsec
     reverse_proxy localhost:3000
+  }
+}
+
+id.hunter.sutaai.dev {
+  # KanIDM
+  route {
+    crowdsec
+    reverse_proxy localhost:5547
   }
 }
 
