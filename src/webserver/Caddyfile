@@ -53,7 +53,7 @@ grafana.hunter.sutaai.dev {
   }
 }
 
-id.hunter.sutaai.dev {
+id.sutaai.dev {
   # KanIDM
   route {
     crowdsec

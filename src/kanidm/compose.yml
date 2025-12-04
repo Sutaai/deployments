@@ -1,0 +1,7 @@
+services:
+  app:
+    image: kanidm/server:1.8.3
+    ports:
+      - 5547:8443
+    volumes:
+      - ./server.toml:/data/server.toml
