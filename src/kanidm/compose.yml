@@ -5,3 +5,7 @@ services:
       - 5547:8443
     volumes:
       - ./server.toml:/data/server.toml
+
+volumes:
+  kanidm-private:
+    external: true

@@ -24,18 +24,30 @@ auth.hunter.sutaai.dev {
 }
 
 archive.hunter.sutaai.dev {
-	reverse_proxy localhost:2685
+  route {
+    crowdsec
+	  reverse_proxy localhost:2685
+	}
 }
 
 docs.hunter.sutaai.dev {
   route {
-    # crowdsec
+    crowdsec
     reverse_proxy localhost:11511
   }
 }
 
 finance.hunter.sutaai.dev {
-	reverse_proxy localhost:8456
+	route {
+	  crowdsec
+	  reverse_proxy localhost:8456
+	}
+}
+import.finance.hunter.sutaai.dev {
+  route {
+    crowdsec
+    reverse_proxy localhost:21264
+  }
 }
 
 files.hunter.sutaai.dev {
