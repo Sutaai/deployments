@@ -138,3 +138,9 @@ wiki.t4t.one {
 	  reverse_proxy localhost:6545
   }
 }
+edge.t4t.one {
+  route {
+    crowdsec
+    reverse_proxy localhost:6546
+  }
+}
