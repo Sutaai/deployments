@@ -38,8 +38,6 @@ services:
       # See README.md on why this is commented. Use "beet config -e"
       - $MUSIC_BASE_PATH/library:/music
       - $MUSIC_BASE_PATH/ingest:/downloads
-    ports:
-      - 22654:8337
 
 volumes:
   beets-config:
