@@ -29,7 +29,7 @@ jobs:
         with:
           repository: frappe/frappe_docker
           ref: main
-          path: /frappe_src
+          path: frappe_src
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -58,7 +58,7 @@ jobs:
         id: push
         uses: docker/build-push-action@v6.18.0
         with:
-          context: /frappe_src/images/layered
+          context: frappe_src/images/layered
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
