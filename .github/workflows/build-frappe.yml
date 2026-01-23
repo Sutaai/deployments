@@ -59,7 +59,7 @@ jobs:
         uses: docker/build-push-action@v6.18.0
         with:
           context: frappe_src/images/layered
-          file: Containerfile
+          file: frappe_src/images/layered/Containerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
