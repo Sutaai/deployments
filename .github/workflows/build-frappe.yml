@@ -19,6 +19,8 @@ jobs:
       packages: write
       attestations: write
       id-token: write
+    env:
+      APPS_B64: true
 
     steps:
       - name: Checkout repository
@@ -37,9 +39,7 @@ jobs:
           version: latest
 
       - name: Get apps.json's Base64
-        run: export APPS_B64=$(base64 -w 0 src/frappe/apps.json)
-
-      # ------------------------------------ #
+        run: echo "APPS_B64=$(base64 -w 0 src/frappe/apps.json)" >> $GITHUB_ENV
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3.6.0
@@ -60,6 +60,10 @@ jobs:
         with:
           context: frappe_src/images/layered
           file: frappe_src/images/layered/Containerfile
+          build-args: |
+            FRAPPE_PATH=https://github.com/frappe/frappe
+            FRAPPE_BRANCH=version-16
+            APPS_JSON_BASE64=${{ env.APPS_B64 }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
