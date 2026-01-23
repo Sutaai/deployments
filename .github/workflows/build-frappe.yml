@@ -37,7 +37,7 @@ jobs:
           version: latest
 
       - name: Get apps.json's Base64
-        run: export APPS_B64=$(base64 -w 0 apps.json)
+        run: export APPS_B64=$(base64 -w 0 src/frappe/apps.json)
 
       # ------------------------------------ #
 
@@ -59,6 +59,7 @@ jobs:
         uses: docker/build-push-action@v6.18.0
         with:
           context: frappe_src/images/layered
+          file: "{context}/Containerfile"
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
