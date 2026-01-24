@@ -76,3 +76,18 @@ jobs:
           subject-name: ghcr.io/Sutaai/frappe
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
+
+      - name: Obtain Frappe's pushed SHA hash
+        run: |
+          cd frappe_src
+          git rev-parse HEAD > ../frappe_docker_sha.txt
+          cd ..
+
+      - name: Push chang
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: frappe_docker_sha.txt
+          author_name: Sutaai
+          author_email: sutaai@proton.me
+          commit: --signoff
+          message: 'Update Frappe Docker repo SHA'
