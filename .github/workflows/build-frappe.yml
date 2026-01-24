@@ -1,0 +1,93 @@
+name: Publish Frappe
+
+on:
+  push:
+    paths:
+      - src/frappe/**
+      - .github/workflows/build-frappe.yml
+      - LICENSE
+    branches:
+      - main
+      - feat/frappe
+  workflow_dispatch:
+
+jobs:
+  build-n-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      attestations: write
+      id-token: write
+    env:
+      APPS_B64: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Pull Frappe Docker
+        uses: actions/checkout@v6
+        with:
+          repository: frappe/frappe_docker
+          ref: main
+          path: frappe_src
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          version: latest
+
+      - name: Get apps.json's Base64
+        run: echo "APPS_B64=$(base64 -w 0 src/frappe/apps.json)" >> $GITHUB_ENV
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5.10.0
+        with:
+          images: ghcr.io/Sutaai/frappe
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v6.18.0
+        with:
+          context: frappe_src/images/layered
+          file: frappe_src/images/layered/Containerfile
+          build-args: |
+            FRAPPE_PATH=https://github.com/frappe/frappe
+            FRAPPE_BRANCH=version-16
+            APPS_JSON_BASE64=${{ env.APPS_B64 }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-name: ghcr.io/Sutaai/frappe
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+      - name: Obtain Frappe's pushed SHA hash
+        run: |
+          cd frappe_src
+          git rev-parse HEAD > ../frappe_docker_sha.txt
+          cd ..
+
+      - name: Push Frappe Docker SHA hash
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: frappe_docker_sha.txt
+          author_name: Sutaai
+          author_email: sutaai@proton.me
+          commit: --signoff
+          message: 'Update Frappe Docker repo SHA'

@@ -1,0 +1,10 @@
+[
+  {
+    "url": "https://github.com/frappe/erpnext",
+    "branch": "version-16"
+  },
+  {
+    "url": "https://github.com/frappe/builder",
+    "commit_hash": "f72d7a173e79d6a20ad1e6fa2c76c7c19144138a"
+  }
+]
